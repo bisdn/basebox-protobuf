@@ -1,0 +1,10 @@
+syntax = "proto3";
+import "common/empty.proto";
+import "common/ietf-network.proto";
+
+package api;
+
+service NetworkDescriptor {
+    //Get topology RPC call
+    rpc GetTopology(empty.Empty) returns (ietf_network.Networks) {};
+}

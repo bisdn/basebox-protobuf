@@ -1,0 +1,11 @@
+syntax = "proto3";
+import "common/empty.proto";
+import "common/ietf-vxlan.proto";
+
+package api;
+
+service NetworkVxlan {
+    rpc GetVxlans(empty.Empty) returns (ietf_vxlan.Vxlan) {};
+    rpc SetVxlans(ietf_vxlan.Vxlan) returns (ietf_vxlan.Vxlan) {};
+    rpc RemoveVxlans(ietf_vxlan.Vxlan) returns (ietf_vxlan.Vxlan) {};
+}
