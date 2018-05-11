@@ -1,0 +1,15 @@
+syntax = "proto3";
+import "common/empty.proto";
+import "common/openconfig-interfaces.proto";
+
+package api;
+
+
+service CawrNetworkInterfaces {
+    rpc GetCawrInterfaces(empty.Empty) returns (openconfig_interfaces.Interfaces) {};
+    rpc GetCawrInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
+    rpc SetCawrInterfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
+    rpc SetCawrInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
+    rpc RemoveCawrInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces) {};
+    rpc RemoveCawrInterfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
+}
