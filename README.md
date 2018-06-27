@@ -4,7 +4,7 @@ This repository is a collection of protocol buffer used in [basebox](https://git
 The folder [common](common/) contains the proto files generated from the public yang model:
 * The [empty.proto](common/empty.proto) defines a empty message.
 * The [ietf-network.proto](common/empty.proto) is generated from the RFC 8345 and define the data model for the topology.
-* The [openconfig-interfaces.proto](common/openconfig-interfaces) is generated from the openconfig-interfaces extension for the vlan. This model is used for the statistics and the vlan configuration.
+* The [openconfig-interfaces.proto](common/openconfig-interfaces) is generated from the openconfig-interfaces extension for the vlan and layer 3 information. This model is used for the statistics and the vlan configuration.
 * The [ietf-vxlan.proto](common/ietf-vxlan.proto) is generated from the *draft-chen-nvo3-vxlan-yang-06* and it used to configure vxlan.
 
 In the folder [api](api/) are defined the APIs for the vlan and vxlan configuration.
