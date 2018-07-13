@@ -7,5 +7,5 @@ package api;
 
 service CawrNetworkInterfaces {
     rpc GetCawrInterfaces(empty.Empty) returns (openconfig_interfaces.Interfaces) {};
-    rpc SetCawrInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
+    rpc SetCawrInterface(openconfig_interfaces.Interfaces_Interface) returns (empty.Empty) {};
 }
