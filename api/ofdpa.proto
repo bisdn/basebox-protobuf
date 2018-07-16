@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "stp/openconfig-spanning-tree.proto";
+
 package ofdpa;
 
 message OfdpaStatus {
@@ -54,6 +56,15 @@ service OfdpaRpc {
 
   rpc ofdpaSourceMacLearningSet(SrcMacLearning) returns (OfdpaStatus) {}
   rpc ofdpaSourceMacLearningGet(Empty) returns (SrcMacLearning) {}
+
+  rpc ofdpaStgCreate(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
+  rpc ofdpaStgDestroy(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
+
+  rpc ofdpaStgVlanAdd(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
+  rpc ofdpaStgVlanRemove(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
+
+  rpc ofdpaStgStatePortSet(openconfig_spanning_tree.Stp_Rstp_Interface_State) returns (OfdpaStatus) {}
+
 }
 
 message Empty {}
