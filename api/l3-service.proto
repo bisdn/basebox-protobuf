@@ -7,8 +7,8 @@ package api;
 service L3NetworkInterfaces {
     rpc GetL3Interfaces(empty.Empty) returns (openconfig_interfaces.Interfaces) {};
     rpc GetL3Interface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
-    rpc SetL3Interfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
-    rpc SetL3Interface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
-    rpc RemoveL3Interface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces) {};
-    rpc RemoveL3Interfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
+    rpc SetL3Interfaces(openconfig_interfaces.Interfaces) returns (empty.Empty) {};
+    rpc SetL3Interface(openconfig_interfaces.Interfaces_Interface) returns (empty.Empty) {};
+    rpc RemoveL3Interface(openconfig_interfaces.Interfaces_Interface) returns (empty.Empty) {};
+    rpc RemoveL3Interfaces(openconfig_interfaces.Interfaces) returns (empty.Empty) {};
 }
