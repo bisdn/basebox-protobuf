@@ -7,10 +7,10 @@ package api;
 service NetworkInterfaces {
     rpc GetInterfaces(empty.Empty) returns (openconfig_interfaces.Interfaces) {};
     rpc GetInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
-    rpc SetInterfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
-    rpc SetInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces_Interface) {};
-    rpc RemoveVlansForInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces) {};
-    rpc RemoveVlansForInterfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
-    rpc RemoveInterface(openconfig_interfaces.Interfaces_Interface) returns (openconfig_interfaces.Interfaces) {};
-    rpc RemoveInterfaces(openconfig_interfaces.Interfaces) returns (openconfig_interfaces.Interfaces) {};
+    rpc SetInterfaces(openconfig_interfaces.Interfaces) returns (empty.Empty) {};
+    rpc SetInterface(openconfig_interfaces.Interfaces_Interface) returns (empty.Empty) {};
+    rpc RemoveVlansForInterface(openconfig_interfaces.Interfaces_Interface) returns (empty.Empty) {};
+    rpc RemoveVlansForInterfaces(openconfig_interfaces.Interfaces) returns (empty.Empty) {};
+    rpc RemoveInterface(openconfig_interfaces.Interfaces_Interface) returns (empty.Empty) {};
+    rpc RemoveInterfaces(openconfig_interfaces.Interfaces) returns (empty.Empty) {};
 }
