@@ -52,8 +52,16 @@ service OfdpaRpc {
   rpc ofdpaTunnelPortTenantAdd(TunnelPortTenantAdd) returns (OfdpaStatus) {}
   rpc ofdpaTunnelPortTenantDelete(TunnelPortTenantAdd) returns (OfdpaStatus) {}
 
+  rpc ofdpaTunnelEcmpNextHopGroupCreate(TunnelEcmpNextHopGroupCreate) returns (OfdpaStatus) {}
+  rpc ofdpaTunnelEcmpNextHopGroupDelete(EcmpNextHopId) returns (OfdpaStatus) {}
+  rpc ofdpaTunnelEcmpNextHopGroupMemberAdd(TunnelEcmpNextHopGroupMember) returns (OfdpaStatus) {}
+  rpc ofdpaTunnelEcmpNextHopGroupMemberDelete(TunnelEcmpNextHopGroupMember) returns (OfdpaStatus) {}
+
   rpc ofdpaSourceMacLearningSet(SrcMacLearning) returns (OfdpaStatus) {}
   rpc ofdpaSourceMacLearningGet(Empty) returns (SrcMacLearning) {}
+
+  rpc ofdpaMirrorSourcePortAdd(MirrorSourcePortAdd) returns (OfdpaStatus) {}
+  rpc ofdpaMirrorSourcePortDelete(MirrorSourcePortDelete) returns (OfdpaStatus) {}
 }
 
 message Empty {}
@@ -72,6 +80,24 @@ message PortNum {
 
 message NextHopId {
   uint32 next_hop_id = 1;
+}
+
+message EcmpNextHopId {
+  uint32 next_hop_id = 1;
+}
+
+message TunnelEcmpNextHopGroupConfig {
+  OfdpaTunnelProto protocol = 1;
+}
+
+message TunnelEcmpNextHopGroupCreate {
+  EcmpNextHopId next_hop_id = 1;
+  TunnelEcmpNextHopGroupConfig config = 2;
+}
+
+message TunnelEcmpNextHopGroupMember {
+  EcmpNextHopId ecmp_next_hop_id = 1;
+  NextHopId next_hop_id = 2;
 }
 
 message TunnelTenantCreate {
