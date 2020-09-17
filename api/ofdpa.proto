@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-import "stp/openconfig-spanning-tree.proto";
-
 package ofdpa;
+import "stp/openconfig-spanning-tree.proto";
+import "trunk/trunk-interfaces.proto";
 
 message OfdpaStatus {
   enum OfdpaStatusCode {
@@ -65,6 +65,12 @@ service OfdpaRpc {
 
   rpc ofdpaStgStatePortSet(openconfig_spanning_tree.Stp_Rstp_Interface_State) returns (OfdpaStatus) {}
 
+  rpc ofdpaTrunkCreate(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkDelete(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkPortPSCSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+
+  rpc ofdpaTrunkPortMemberSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkPortMemberActiveSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
 }
 
 message Empty {}
