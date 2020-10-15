@@ -180,33 +180,25 @@ message TunnelPortTenantAdd {
   uint32 tunnel_id = 2;
 }
 
+enum LagType {
+  LagType_ROUNDROBIN = 0;
+  LagType_ACTIVEBACKUP = 1;
+  LagType_XOR = 2;
+  LagType_BROADCAST = 3;
+  LagType_8023AD = 4;
+  LagType_TLB = 5;
+  LagType_ALB = 6;
+};
+
 message TrunkCreate {
   uint32 lag_id = 1;
   uint32 port_num = 2;
   string name = 3;
-  enum LagType {
-    LagType_ROUNDROBIN = 0;
-    LagType_ACTIVEBACKUP = 1;
-    LagType_XOR = 2;
-    LagType_BROADCAST = 3;
-    LagType_8023AD = 4;
-    LagType_TLB = 5;
-    LagType_ALB = 6;
-  };
   LagType lag_type = 4;
 }
 
 message PSC {
   uint32 lag_id = 1;
-  enum LagType {
-    LagType_ROUNDROBIN = 0;
-    LagType_ACTIVEBACKUP = 1;
-    LagType_XOR = 2;
-    LagType_BROADCAST = 3;
-    LagType_8023AD = 4;
-    LagType_TLB = 5;
-    LagType_ALB = 6;
-  };
   LagType lag_type = 2;
 }
 
