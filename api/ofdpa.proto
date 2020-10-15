@@ -66,10 +66,10 @@ service OfdpaRpc {
   rpc ofdpaStgStatePortSet(openconfig_spanning_tree.Stp_Rstp_Interface_State) returns (OfdpaStatus) {}
 
   rpc ofdpaTrunkCreate(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
-  rpc ofdpaTrunkDelete(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkDelete(PortNum) returns (OfdpaStatus) {}
   rpc ofdpaTrunkPortPSCSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
 
-  rpc ofdpaTrunkPortMemberSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaPortTrunkGroupSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
   rpc ofdpaTrunkPortMemberActiveSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
 }
 
