@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ofdpa;
 import "stp/openconfig-spanning-tree.proto";
-import "trunk/trunk-interfaces.proto";
 
 message OfdpaStatus {
   enum OfdpaStatusCode {
@@ -65,12 +64,12 @@ service OfdpaRpc {
 
   rpc ofdpaStgStatePortSet(openconfig_spanning_tree.Stp_Rstp_Interface_State) returns (OfdpaStatus) {}
 
-  rpc ofdpaTrunkCreate(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkCreate(TrunkCreate) returns (OfdpaStatus) {}
   rpc ofdpaTrunkDelete(PortNum) returns (OfdpaStatus) {}
-  rpc ofdpaTrunkPortPSCSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkPortPSCSet(PSC) returns (OfdpaStatus) {}
 
-  rpc ofdpaPortTrunkGroupSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
-  rpc ofdpaTrunkPortMemberActiveSet(trunk.Interface_Trunk_Description) returns (OfdpaStatus) {}
+  rpc ofdpaPortTrunkGroupSet(TrunkGroupSet) returns (OfdpaStatus) {}
+  rpc ofdpaTrunkPortMemberActiveSet(PortMemberActiveSet) returns (OfdpaStatus) {}
 }
 
 message Empty {}
@@ -179,4 +178,45 @@ message OfdpaTunnelNextHopConfig {
 message TunnelPortTenantAdd {
   uint32 port_num = 1;
   uint32 tunnel_id = 2;
+}
+
+message TrunkCreate {
+  uint32 lag_id = 1;
+  uint32 port_num = 2;
+  string name = 3;
+  enum LagType {
+    LagType_ROUNDROBIN = 0;
+    LagType_ACTIVEBACKUP = 1;
+    LagType_XOR = 2;
+    LagType_BROADCAST = 3;
+    LagType_8023AD = 4;
+    LagType_TLB = 5;
+    LagType_ALB = 6;
+  };
+  LagType lag_type = 4;
+}
+
+message PSC {
+  uint32 lag_id = 1;
+  enum LagType {
+    LagType_ROUNDROBIN = 0;
+    LagType_ACTIVEBACKUP = 1;
+    LagType_XOR = 2;
+    LagType_BROADCAST = 3;
+    LagType_8023AD = 4;
+    LagType_TLB = 5;
+    LagType_ALB = 6;
+  };
+  LagType lag_type = 2;
+}
+
+message TrunkGroupSet {
+  uint32 lag_id = 1;
+  uint32 member = 2;
+}
+
+message PortMemberActiveSet {
+  uint32 lag_id = 1;
+  uint32 member = 2;
+  bool active = 3;
 }
