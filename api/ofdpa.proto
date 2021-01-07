@@ -1,7 +1,6 @@
 syntax = "proto3";
 
 package ofdpa;
-import "stp/openconfig-spanning-tree.proto";
 
 message OfdpaStatus {
   enum OfdpaStatusCode {
@@ -56,13 +55,14 @@ service OfdpaRpc {
   rpc ofdpaSourceMacLearningSet(SrcMacLearning) returns (OfdpaStatus) {}
   rpc ofdpaSourceMacLearningGet(Empty) returns (SrcMacLearning) {}
 
-  rpc ofdpaStgCreate(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
-  rpc ofdpaStgDestroy(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
+  rpc ofdpaStgCreate(VlanId) returns (OfdpaStatus) {}
+  rpc ofdpaStgDestroy(VlanId) returns (OfdpaStatus) {}
 
-  rpc ofdpaStgVlanAdd(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
-  rpc ofdpaStgVlanRemove(openconfig_spanning_tree.Stp) returns (OfdpaStatus) {}
+  rpc ofdpaStgVlanAdd(VlanId) returns (OfdpaStatus) {}
+  rpc ofdpaStgVlanRemove(VlanId) returns (OfdpaStatus) {}
 
-  rpc ofdpaStgStatePortSet(openconfig_spanning_tree.Stp_Rstp_Interface_State) returns (OfdpaStatus) {}
+  rpc ofdpaStgStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
+  rpc ofdpaStpStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
 
   rpc ofdpaTrunkCreate(TrunkCreate) returns (OfdpaStatus) {}
   rpc ofdpaTrunkDelete(PortNum) returns (OfdpaStatus) {}
@@ -211,4 +211,16 @@ message PortMemberActiveSet {
   uint32 lag_id = 1;
   uint32 member = 2;
   bool active = 3;
+}
+
+// Operational state data for STP on each interface
+message StpInterfaceState {
+  string name = 1;
+  uint32 port_num = 2;
+  string port_state = 3;
+  VlanId vlan_id = 4;
+}
+
+message VlanId {
+  uint32 vlan_id = 1;
 }
