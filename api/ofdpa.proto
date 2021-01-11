@@ -1,5 +1,4 @@
 syntax = "proto3";
-
 package ofdpa;
 
 message OfdpaStatus {
@@ -34,7 +33,6 @@ message OfdpaStatus {
     /** Not implemented. */
     OFDPA_NOT_IMPLEMENTED_YET    = -33;
   }
-
   OfdpaStatusCode status = 1;
 }
 
@@ -55,14 +53,29 @@ service OfdpaRpc {
   rpc ofdpaSourceMacLearningSet(SrcMacLearning) returns (OfdpaStatus) {}
   rpc ofdpaSourceMacLearningGet(Empty) returns (SrcMacLearning) {}
 
-  rpc ofdpaStgCreate(VlanId) returns (OfdpaStatus) {}
-  rpc ofdpaStgDestroy(VlanId) returns (OfdpaStatus) {}
+  rpc ofdpaMirrorSourcePortAdd(MirrorSourcePortAdd) returns (OfdpaStatus) {}
+  rpc ofdpaMirrorSourcePortDelete(MirrorSourcePortDelete) returns (OfdpaStatus) {}
 
-  rpc ofdpaStgVlanAdd(VlanId) returns (OfdpaStatus) {}
-  rpc ofdpaStgVlanRemove(VlanId) returns (OfdpaStatus) {}
+  rpc ofdpaMirrorPortCreate(PortNum) returns (OfdpaStatus) {}
+  rpc ofdpaMirrorPortDelete(PortNum) returns (OfdpaStatus) {}
+  
+  rpc ofdpaFlowAdd(FlowEntry) returns (OfdpaStatus) {}
+  rpc ofdpaFlowDelete(FlowEntry) returns (OfdpaStatus) {}
+   
+  rpc ofdpaGroupAdd(GroupEntry) returns (OfdpaStatus) {}
+  rpc ofdpaGroupDelete(GroupEntry) returns (OfdpaStatus) {}
+  
+  rpc ofdpaGroupBucketEntryAdd(GroupBucketEntry) returns (OfdpaStatus) {}
+  rpc ofdpaGroupBucketEntryDelete(GroupBucketEntry) returns (OfdpaStatus) {}
+
+  rpc ofdpaStgCreate(StgId) returns (OfdpaStatus) {}
+  rpc ofdpaStgDestroy(StgId) returns (OfdpaStatus) {}
+
+  rpc ofdpaStgVlanAdd(StgVlan) returns (OfdpaStatus) {}
+  rpc ofdpaStgVlanRemove(StgVlan) returns (OfdpaStatus) {}
 
   rpc ofdpaStgStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
-  rpc ofdpaStpStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
+  rpc ofdpaGlobalStpStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
 
   rpc ofdpaTrunkCreate(TrunkCreate) returns (OfdpaStatus) {}
   rpc ofdpaTrunkDelete(PortNum) returns (OfdpaStatus) {}
@@ -180,6 +193,175 @@ message TunnelPortTenantAdd {
   uint32 tunnel_id = 2;
 }
 
+message MirrorSourcePortAdd {
+  OfdpaMirrorSourcePortConfig config = 1;
+  PortNum mirror_dst_port_num = 2;
+  PortNum mirror_src_port_num = 3;
+}
+
+message OfdpaMirrorSourcePortConfig {
+  enum OfdpaMirrorPortType {
+      OFDPA_MIRROR_PORT_TYPE_INGRESS = 0;
+      OFDPA_MIRROR_PORT_TYPE_EGRESS = 1;
+      OFDPA_MIRROR_PORT_TYPE_INGRESS_EGRESS = 2;
+    }
+  OfdpaMirrorPortType ofdpa_mirror_port_type = 1;
+}
+
+message MirrorSourcePortDelete {
+  PortNum mirror_dst_port_num = 1;
+  PortNum mirror_src_port_num = 2;
+}
+
+message ofdpaIngressPortFlowMatch {
+  uint32 tunnel_id = 1;
+}
+
+message FlowEntryIngressPort {
+  ofdpaIngressPortFlowMatch  match_criteria = 1;
+  uint32 goto_table_id = 2;
+}
+
+message ofdpaVlanFlowMatch {
+  uint32 in_port = 1;
+  uint32 vlan_id = 2;
+  uint32 vlan_id_mask = 3;
+}
+
+message FlowEntryVlan {
+  ofdpaVlanFlowMatch  match_criteria = 1;
+  uint32 goto_table_id = 2;
+  uint32 set_vlan_id_action = 3;
+  uint32 new_vlan_id = 4;
+  uint32 pop_vlan_action = 5;
+}
+
+message ofdpaBridgingFlowMatch{
+  uint32 vlan_id = 1;
+  uint32 vlan_id_mask = 2;
+  uint32 tunnel_id = 3;
+  uint32 tunnel_id_mask = 4;
+  uint64 dst_mac = 5;
+  uint64 dst_mac_mask = 6;
+}
+
+message FlowEntryBridging {
+  ofdpaBridgingFlowMatch  match_criteria = 1;
+  uint32 goto_table_id = 2;
+  uint32 group_id = 3;
+  uint32 tunnel_logical_port = 4;
+  uint32 output_port = 5;
+}
+
+message ofdpaTerminationMacFlowMatch{
+  uint32 in_port = 1;
+  uint32 in_port_mask = 2;
+  uint32 eth_type = 3;
+  uint64 dst_mac = 4;
+  uint64 dst_mac_mask = 5;
+  uint32 vlan_id = 6;
+  uint32 vlan_id_mask = 7;
+}
+
+message FlowEntryTerminationMac {
+  ofdpaTerminationMacFlowMatch  match_criteria = 1;
+  uint32 goto_table_id = 2;
+  uint32 output_port = 4;
+}
+
+message ofdpaUnicastRoutingFlowMatch{
+  uint32 eth_type = 1;
+  uint32 dst_ip = 2;
+  uint32 dst_ip_mask = 3;
+}
+
+message FlowEntryUnicastRouting {
+  ofdpaUnicastRoutingFlowMatch  match_criteria = 1;
+  uint32 goto_table_id = 2;
+  uint32 group_id = 3;
+  uint32 output_port = 4;
+}
+
+message FlowData {
+  oneof flowentry {
+    FlowEntryIngressPort flow_entry_ingress_port = 1;
+    FlowEntryVlan flow_entry_vlan = 2;
+    FlowEntryBridging flow_entry_bridging = 3;
+    FlowEntryTerminationMac flow_entry_termination_mac = 4;
+    FlowEntryUnicastRouting flow_entry_unicast_routing = 5;
+  }
+}
+
+message FlowEntry {
+  uint32 table_id = 1;
+  uint32 priority = 2;
+  FlowData flow_data = 3;
+  uint32 hard_time = 4;
+  uint32 idle_time = 5;
+  uint64 cookie = 6;
+}
+
+message FlowModAdd {
+  FlowEntry flow_entry = 1;
+}
+
+message FlowModDelete {
+  FlowEntry flow_entry = 1;
+}
+
+message GroupEntry {
+  uint32 group_id = 1;
+}
+
+message GroupModAdd {
+  GroupEntry group_entry = 1;
+}
+
+message GroupModDelete {
+  GroupEntry group_entry = 1;
+}
+
+message L2InterfaceGroupBucketData {
+  uint32 output_port = 1;
+  uint32 pop_vlan_tag = 2;
+  uint32 allow_vlan_translation = 3;
+}
+
+message L3UnicastGroupBucketData {
+  uint64 src_mac = 1;
+  uint64 dst_mac = 2;
+  uint32 vlan_id = 3;
+}
+
+message L2OverlayGroupBucketData {
+  uint32 output_port = 1;
+}
+
+message GroupBucketData {
+  oneof data {
+  L2InterfaceGroupBucketData  l2_interface = 1;
+  L3UnicastGroupBucketData  l3_unicast = 2;
+  L2OverlayGroupBucketData  l2_overlay = 3;
+  }
+}
+
+message GroupBucketEntry {
+  uint32 group_id = 1;
+  uint32 bucket_index = 2;
+  uint32 reference_group_id = 3;
+  GroupBucketData bucket_data = 4;
+  uint32 type = 5;
+}
+
+message GroupBucketEntryAdd {
+  GroupBucketEntry group_bucket_entry = 1;
+}
+
+message GroupBucketEntryDelete {
+  uint32 group_id = 1;
+  uint32 group_bucket_index = 2;
+}
+
 enum LagType {
   LagType_ROUNDROBIN = 0;
   LagType_ACTIVEBACKUP = 1;
@@ -213,14 +395,24 @@ message PortMemberActiveSet {
   bool active = 3;
 }
 
-// Operational state data for STP on each interface
+// Operational state data for per vlan STP on each interface
 message StpInterfaceState {
   string name = 1;
   uint32 port_num = 2;
   string port_state = 3;
-  VlanId vlan_id = 4;
+  StgId stg_id = 4;
+}
+
+message StgVlan {
+  StgId stg_id = 1;
+  VlanId vlan_id = 2;
 }
 
 message VlanId {
-  uint32 vlan_id = 1;
+  uint32 id = 1;
 }
+
+message StgId {
+  uint32 id = 1;
+}
+
