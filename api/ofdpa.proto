@@ -75,7 +75,6 @@ service OfdpaRpc {
   rpc ofdpaStgVlanRemove(StgVlan) returns (OfdpaStatus) {}
 
   rpc ofdpaStgStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
-  rpc ofdpaGlobalStpStatePortSet(StpInterfaceState) returns (OfdpaStatus) {}
 
   rpc ofdpaTrunkCreate(TrunkCreate) returns (OfdpaStatus) {}
   rpc ofdpaTrunkDelete(PortNum) returns (OfdpaStatus) {}
