@@ -2,16 +2,16 @@
 // representation of a YANG schema.
 //
 // Input schema modules:
-//  - ../demo/getting_started/yang/openconfig-interfaces.yang
+//  - /home/rubens/code/public/release/models/stratum/openconfig-interfaces-stratum.yang
 // Include paths:
-//   - yang/...
+//   - /home/rubens/code/public/release/models/...
 syntax = "proto3";
 
 package openconfig;
 
-import "github.com/openconfig/ygot/proto/ywrapper/ywrapper.proto";
-import "github.com/openconfig/ygot/proto/yext/yext.proto";
-import "../demo/getting_started/yang/openconfig/openconfig_interfaces/openconfig_interfaces.proto";
+import "ywrapper/ywrapper.proto";
+import "yext/yext.proto";
+import "openconfig/openconfig_interfaces/openconfig_interfaces.proto";
 
 message Device {
   openconfig_interfaces.Interfaces interfaces = 85031486 [(yext.schemapath) = "/interfaces"];
