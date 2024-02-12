@@ -37,6 +37,7 @@ message OfdpaStatus {
 }
 
 service OfdpaRpc {
+  rpc ofdpaTunnelReset(Empty) returns (OfdpaStatus) {}
   rpc ofdpaTunnelTenantCreate(TunnelTenantCreate) returns (OfdpaStatus) {}
   rpc ofdpaTunnelTenantDelete(TunnelId) returns (OfdpaStatus) {}
 
@@ -68,6 +69,7 @@ service OfdpaRpc {
   rpc ofdpaGroupBucketEntryAdd(GroupBucketEntry) returns (OfdpaStatus) {}
   rpc ofdpaGroupBucketEntryDelete(GroupBucketEntry) returns (OfdpaStatus) {}
 
+  rpc ofdpaStgReset(Empty) returns (OfdpaStatus) {}
   rpc ofdpaStgCreate(StgId) returns (OfdpaStatus) {}
   rpc ofdpaStgDestroy(StgId) returns (OfdpaStatus) {}
 
