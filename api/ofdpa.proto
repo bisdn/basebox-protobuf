@@ -54,6 +54,11 @@ service OfdpaRpc {
   rpc ofdpaSourceMacLearningSet(SrcMacLearning) returns (OfdpaStatus) {}
   rpc ofdpaSourceMacLearningGet(Empty) returns (SrcMacLearning) {}
 
+  rpc ofdpaPortSourceMacLearningSet(PortSrcMacLearning) returns (OfdpaStatus) {}
+  rpc ofdpaPortSourceMacLearningGet(PortNum) returns (PortSrcMacLearning) {}
+  rpc ofdpaPortSourceMacMoveLearningSet(PortSrcMacLearning) returns (OfdpaStatus) {}
+  rpc ofdpaPortSourceMacMoveLearningGet(PortNum) returns (PortSrcMacLearning) {}
+
   rpc ofdpaMirrorSourcePortAdd(MirrorSourcePortAdd) returns (OfdpaStatus) {}
   rpc ofdpaMirrorSourcePortDelete(MirrorSourcePortDelete) returns (OfdpaStatus) {}
 
@@ -90,6 +95,19 @@ message Empty {}
 
 message SrcMacLearning {
   bool enable = 1;
+}
+
+message PortSrcMacLearning {
+  enum SrcMacLearnMode {
+    SRC_MAC_LEARN_NONE = 0;
+    SRC_MAC_LEARN_ARL = 1;
+    SRC_MAC_LEARN_CPU = 2;
+    SRC_MAC_LEARN_FWD = 4;
+    SRC_MAC_LEARN_PENDING = 8;
+  }
+
+  uint32 port_num = 1;
+  uint32 l2_learn = 2;
 }
 
 message TunnelId {
