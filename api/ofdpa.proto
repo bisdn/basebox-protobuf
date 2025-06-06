@@ -89,6 +89,8 @@ service OfdpaRpc {
 
   rpc ofdpaPortTrunkGroupSet(TrunkGroupSet) returns (OfdpaStatus) {}
   rpc ofdpaTrunkPortMemberActiveSet(PortMemberActiveSet) returns (OfdpaStatus) {}
+
+  rpc ofdpaRxRateSet(Pps) returns (OfdpaStatus) {}
 }
 
 message Empty {}
@@ -435,3 +437,6 @@ message StgId {
   uint32 id = 1;
 }
 
+message Pps {
+  sint32 pps = 1;
+}
