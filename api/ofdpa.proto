@@ -90,6 +90,9 @@ service OfdpaRpc {
   rpc ofdpaPortTrunkGroupSet(TrunkGroupSet) returns (OfdpaStatus) {}
   rpc ofdpaTrunkPortMemberActiveSet(PortMemberActiveSet) returns (OfdpaStatus) {}
 
+  rpc ofdpaPortKnetCreate(PortNum) returns (OfdpaStatus) {}
+  rpc ofdpaPortKnetDelete(PortNum) returns (OfdpaStatus) {}
+
   rpc ofdpaRxRateSet(Pps) returns (OfdpaStatus) {}
 }
 
